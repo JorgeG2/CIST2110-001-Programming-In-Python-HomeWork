@@ -77,20 +77,9 @@ def final_score(points):
 
 print(final_score(points))
 # Create a function to display the final score, which takes the score as a parameter and displays a message.
-# Loops:
+# Loops:uyggygyu
 
-# for i in range(0, 5):
-#     print("Question " + str(i+1) + ":")
-#     if i==0:
-#         Question1
-#     elif i==1:
-#         Question2
-#     elif i==2:
-#         Question3
-#     elif i==3:
-#         Question4
-#     elif i==4:
-#         Question5
+
 
 # Use a for or while loop to iterate through the questions.
 # Variable Casting:
