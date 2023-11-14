@@ -28,9 +28,9 @@ def add(a:float, b:float) -> float:
     Returns:
         float: the sum of a and b
     """
-    return a - b
+    return a + b #fixed
 # Where is the bug in the buggy function?
-# A:
+# A:it was was subtracting instead of adding
 
 def subtract(a:float, b:float) -> float:
     """Subtract two numbers
@@ -42,9 +42,9 @@ def subtract(a:float, b:float) -> float:
     Returns:
         float: the difference of a and b
     """
-    return a + b
+    return a - b #fixed 
 # Where is the bug in the buggy function?
-# A:
+# A: it is adding instead of subtracting
 
 def divide(a, b):
     """Divide two numbers
@@ -56,9 +56,10 @@ def divide(a, b):
     Returns:
         float: the quotient of a and b
     """
-    return a * b
+    return a / b #fixed
 # Where is the bug in the buggy function?
-# A:
+# A: it is multiplying instead of dividing
+# A: also while not neccesarily a bug we arent specify types for argument
 
 
 def multiply(a:float, b:float) -> float:
@@ -71,10 +72,10 @@ def multiply(a:float, b:float) -> float:
     Returns:
         float: the product of a and b
     """
-    return a / b
+    return a * b #fixed
 
 # Where is the bug in the buggy function?
-# A:
+# A: it is dividing instead of multiplying
 
 
 def greet(name:str)->str:
@@ -86,9 +87,10 @@ def greet(name:str)->str:
     Returns:
         _type_: the greeting message
     """
-    return "Heloo, "+name+"!"
+    return "Heloo, " + name + "!"
 # Where is the bug in the buggy function?
-# A:
+# A: it is missing an l in hello
+
 
 
 def square(num:int) -> int:
@@ -100,12 +102,12 @@ def square(num:int) -> int:
     Returns:
         int: the square of the number
     """
-    return num + num
+    return num * num #fixed
 # Where is the bug in the buggy function?
-# A:
+# A: it is adding instead of multiplying
 
 
-def is_even(num:int) -> bool:
+def is_even(num:int) -> bool: 
     """Check if a number is even
 
     Args:
@@ -114,9 +116,9 @@ def is_even(num:int) -> bool:
     Returns:
         bool: True if the number is even, False otherwise
     """
-    return num % 2 == 1
+    return num % 2 == 0 #fixed
 # Where is the bug in the buggy function?
-# A:
+# A: it is checking if the number is odd instead of even 
 
 
 def grade_calculator(score:float) -> str:
@@ -141,7 +143,7 @@ def grade_calculator(score:float) -> str:
     else:
         return "Invalid Score"
 # Where is the bug in the buggy function?
-# A:
+# A: it is checking if the score is less than 79 instead of 80
 
 def speed_check(speed:float) -> str:
     """Check if the speed is within the speed limit
@@ -157,12 +159,12 @@ def speed_check(speed:float) -> str:
         return "Too slow"
     elif 20 <= speed <= 60:
         return "Within limit"
-    elif speed > 70: 
+    elif speed < 70: #fixed
         return "Over speed limit"
     else:
         return "Unknown"
 # Where is the bug in the buggy function?
-# A:
+# A: for last elif the speed is less then 70 instead of greater than 70
 
 def is_leap_year(year:int) -> bool:
     """Check if a year is a leap year
@@ -182,7 +184,7 @@ def is_leap_year(year:int) -> bool:
     else:
         return False
 # Where is the bug in the buggy function?
-# A:
+# A: here it would be better to structure it as if year % 4 == 0 and year % 100 != 0 or year % 400 == 0
 
 def main():
     print("You are running me directly!")
