@@ -59,7 +59,7 @@ def import_csv(file_name):
         return {}
 
 # Test the function
-file_name = "contacts\.csv"
+file_name = "contacts.csv"
 contacts_dict = import_csv(file_name)
 print(contacts_dict)
 
@@ -108,43 +108,8 @@ def add_contact(contacts, name, phone, email, birthday, csv_file):
 
         return True
 
-
-
-
-def add_contact(contacts, name, phone, email, birthday):
-
-
-
-
-
-    """
-    Add a contact to the dictionary of contacts.
-
-    :param contacts: The dictionary of contacts.
-    :param name: The name of the new contact.
-    :param phone: The phone number of the new contact.
-    :param email: The email address of the new contact.
-    :param birthday: The birthday of the new contact in the format '%m/%d/%Y'.
-    :return: True if the contact was added, False if the contact already exists.
-    """
-    # Convert the birthday to a datetime object
-    birthday_datetime = dt.datetime.strptime(birthday, '%m/%d/%Y')
-
-    # Check if the contact already exists
-    if name in contacts:
-        print(f"Error: Contact '{name}' already exists. Contact not added.")
-        return False
-    else:
-        # Add the new contact to the dictionary
-        contacts[name] = {'Phone': phone, 'Email': email, 'Birthday': birthday_datetime}
-        print(f"Contact '{name}' added successfully.")
-        return True
-
-# Example usage:
 contacts_dict = import_csv("contacts.csv")  # Assuming you have imported contacts from the CSV file
-add_contact(contacts_dict, "Jorge Gonzales", "123-456-7890", "Jorgegonzales191421@Gmail.com", "01/01/2001")
-
-print(contacts_dict)
+print(add_contact(contacts_dict, 'John Doe', '555-555-5555', 'the@gmail.com', '01/01/2000', 'contacts.csv'))  
 
 
 # view_contacts() - This function will display the contacts in the dictionary. The function will take no parameters. The function will return nothing. The function will display a message if there are no contacts in the dictionary. Use string formatting to display the contacts in a table format. The table should have a header row and each contact should be on a separate row. The table should have the following columns: Name, Phone, Email, Birthday. The birthday should be formatted as mm/dd/yyyy. The table should be sorted by name.
@@ -178,12 +143,82 @@ view_contacts(contacts_dict)
 
 # delete_contact(id) - This function will delete a contact from the dictionary. The function will take one parameter, the name of the contact to delete. The function will return True if the contact was deleted and False if the contact was not deleted. The function will display an error message if the contact does not exist.
 
+def delete_contact(contacts, name, csv_file):
+    """
+    Delete a contact from the dictionary of contacts and update the CSV file.
+
+    :param contacts: The dictionary of contacts.
+    :param name: The name of the contact to delete.
+    :param csv_file: The name of the CSV file to update.
+    :return: True if the contact was deleted, False if the contact does not exist.
+    """
+    # Check if the contact exists
+    if name not in contacts:
+        print(f"Error: Contact '{name}' does not exist. Contact not deleted.")
+        return False
+    else:
+        # Delete the contact from the dictionary
+        del contacts[name]
+        print(f"Contact '{name}' deleted successfully.")
+
+        # Update the CSV file
+        with open(csv_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Name', 'Phone', 'Email', 'Birthday'])  # Write header row
+
+            for contact_name, details in contacts.items():
+                phone = details['Phone']
+                email = details['Email']
+                birthday = details['Birthday'].strftime('%m/%d/%Y')
+                writer.writerow([contact_name, phone, email, birthday])
+
+        return True
+
+# Example usage:
+print(delete_contact(contacts_dict, 'John Doe', 'contacts.csv'))
+view_contacts(contacts_dict)
 
 
 
 # next_birthday() - This function will display the next birthday. The function will take no parameters. The function will return nothing. The function will display a message if there are no contacts in the dictionary. The function will display a message if there are no birthdays in the next 30 days. The function will display the next birthday and name if there is a birthday in the next 30 days. Use string formatting to display the next birthday. The next birthday should be sorted by the next birthday. The next birthday should be formatted as mm/dd/yyyy.
 # Hint: We dont care about the year, only the month and day. There are many ways to solve this issue. 1st you could replace all the years with the current year.2nd you could use the month and day attributes of the datetime object to compare the month and day of the birthday to the current month and day.
+def next_birthday(contacts):
+    """
+    Display the next birthday in the next 30 days.
 
+    :param contacts: The dictionary of contacts.
+    :return: None
+    """
+    # Check if there are no contacts in the dictionary
+    if not contacts:
+        print("No contacts available.")
+        return
+
+    # Get the current date
+    today = dt.datetime.now()
+
+    # Get the next birthday
+    next_birthday = None
+    for name, details in contacts.items():
+        birthday = details['Birthday']
+
+        # Replaces the year of the birthday with the current year
+        birthday = birthday.replace(year=today.year)
+
+        # Checks if the birthday is in the next 30 days
+        if today < birthday <= today + dt.timedelta(days=30):
+            if next_birthday is None or birthday < next_birthday:
+                next_birthday = birthday
+                next_birthday_name = name
+
+    # Check if there is a birthday in the next 30 days
+    if next_birthday is None:
+        print("No birthdays in the next 30 days.")
+    else:
+        # Display the next birthday
+        print(f"The next birthday is {next_birthday_name} on {next_birthday.strftime('%m/%d/%Y')}.")
+
+print(next_birthday(contacts_dict))
 # save_csv(filename) - This function will save the contacts to the csv file. Prompt the user to enter a filename to save the contacts to. If the file exists, overwrite the file. If the file does not exist, create the file. The function will return True if the contacts were saved and False if the contacts were not saved.
 
 # The main function will be used to run the program. The main function will use a while loop to display the menu and get the user's choice. The main function will call the appropriate function based on the user's choice. The main function will also call the save_csv function to save the contacts to the csv file before the program ends.
@@ -191,17 +226,40 @@ view_contacts(contacts_dict)
 
 def main():
     """Add Code here to call the functions and run the program"""
-    pass  # Remove this line when you start writing your code
 
     # After you are done with the program, answer the following questions using code (show your code and output):
     # How many names start with the letter A?
+    A_counter = 0
+    for name in contacts_dict.keys():
+        if name.startswith('A'):
+            A_counter += 1
+    print(f"Number of names starting with the letter A: {A_counter}")
 
     # How many emails are yahoo emails?
+    yahoo_counter = 0
+    for details in contacts_dict.values():
+        email = details['Email'].lower()
+        if email.endswith('@yahoo.com'):
+            yahoo_counter += 1
+    print(f"Number of Yahoo emails: {yahoo_counter}")
+
 
     # How many .org emails are there?
+    count_org_emails = 0
+    for details in contacts_dict.values():
+        email = details['Email'].lower()
+        if email.endswith('.org'):
+            count_org_emails += 1
+
+    print(f"Number of .org emails: {count_org_emails}")
 
     # How many contacts have a birthday in January?
-
+    count_january_birthdays = 0
+    for details in contacts_dict.values():
+        birthday = details['Birthday']
+        if birthday.month == 1:
+            count_january_birthdays += 1
+    print(f"Number of contacts with a birthday in January: {count_january_birthdays}")
 
 if __name__ == "__main__":
     main()
